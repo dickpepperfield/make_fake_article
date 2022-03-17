@@ -128,4 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-tmp/
+tmp/unsplash_temp.png
+tmp/feeds
+include/
+bin/
+pyvenv.cfg
+man/
