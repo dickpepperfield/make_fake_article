@@ -1,0 +1,130 @@
+import os
+import random
+import smtplib
+import ssl
+import requests
+import argparse
+import pyunsplash
+import feedparser
+import tensorflow as tf
+import xml.etree.ElementTree as ET
+from dotenv import load_dotenv
+from transformers import TFGPT2LMHeadModel, GPT2Tokenizer
+from random_word import RandomWords
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
+
+load_dotenv()
+
+RSS_FEED = os.getenv('RSS_FEED')
+UNSPLASH_API_KEY = os.getenv('UNSPLASH_API_KEY')
+EMAIL_SMTP_SERVER = os.getenv('EMAIL_SMTP_SERVER')
+EMAIL_SMTP_PORT = os.getenv('EMAIL_SMTP_PORT')
+EMAIL_SENDER = os.getenv('EMAIL_SENDER')
+EMAIL_RECEIVER = os.getenv('EMAIL_RECEIVER')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
+GPT_SEED = random.randint(0,100)
+GPT_MAX_LEN = random.randint(700,900)
+
+def userArguments():
+    parser = argparse.ArgumentParser(description='Generate a fake news article and post it.')
+    parser.add_argument('-f', '--feed', default=RSS_FEED)
+    parser.add_argument('-c', '--category', default='Technology')
+    parser.add_argument('-l', '--max-length', default=GPT_MAX_LEN)
+
+    userargs = parser.parse_args()
+
+    return userargs
+
+
+def loadFeedTitles(userArguments):
+    feed = feedparser.parse(userArguments.feed)
+
+    with open('tmp/feeds', 'w') as f:
+        for item in feed.entries:
+            print(item[ "title" ], file=f)   
+
+    random_title = random.choice(list(open('tmp/feeds')))
+
+    return random_title
+
+def getImage(userArguments):
+    pu = pyunsplash.PyUnsplash(api_key=UNSPLASH_API_KEY)
+    photos = pu.photos(type_='random', count=1, featured=True, query=userArguments.category)
+    [photo] = photos.entries  
+    response = requests.get(photo.link_download, allow_redirects=True)
+    open('tmp/unsplash_temp.png', 'wb').write(response.content)
+
+def createGPT2Text():
+    random_title = random.choice(list(open('tmp/feeds')))
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2-large")
+    GPT2 = TFGPT2LMHeadModel.from_pretrained("gpt2-large", pad_token_id=tokenizer.eos_token_id)
+    input_sequence = random_title
+    input_ids = tokenizer.encode(input_sequence, return_tensors='tf')
+    
+    sample_output = GPT2.generate(
+                             input_ids,
+                             do_sample = True,
+                             max_length = GPT_MAX_LEN,
+                             top_k = 0,
+                             temperature = 0.8
+    )
+
+    GPT2Output = tokenizer.decode(sample_output[0], skip_special_tokens = True)
+
+    return GPT2Output
+
+def constructAndSendEmail(userArguments,loadFeedTitles,createGPT2Text):
+    message = MIMEMultipart("alternative")
+    message["Subject"] = loadFeedTitles
+    message["From"] = EMAIL_SENDER
+    message["To"] = EMAIL_RECEIVER
+
+    # Create the plain-text and HTML version of your message
+    text = (createGPT2Text + f"""
+            [tags Daily, News, Fake, {userArguments.category}] [category {userArguments.category}]
+            ALL INFORMATION IN THIS POST IS COMPLETELY FAKE AND GENERATED ON THE FLY \ 
+            [url href="about-us"]READ MORE HERE[/url]
+            """)
+
+    # Get the image and create it
+    fp = open('tmp/unsplash_temp.png', 'rb')
+    msgImage = MIMEImage(fp.read())
+    fp.close()
+    msgImage.add_header('Content-ID', '<image1>')
+
+    # Turn these into plain/html MIMEText objects
+    messageText = MIMEText(text, "plain")
+
+    # Add HTML/plain-text parts to MIMEMultipart message
+    # The email client will try to render the last part first
+    message.attach(messageText)
+    message.attach(msgImage)
+
+    # Create secure connection with server and send email
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT, context=context) as server:
+        server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+        server.sendmail(
+            EMAIL_SENDER, EMAIL_RECEIVER, message.as_string()
+        )
+
+def main():
+    userArguments()
+    uargs = userArguments()
+
+    loadFeedTitles(uargs)
+
+    createGPT2Text()
+
+    getImage(uargs)
+
+    # Construct the email
+    title = loadFeedTitles(uargs)
+    content = createGPT2Text()
+    constructAndSendEmail(uargs, title, content)
+
+if __name__ == "__main__":
+
+    main()

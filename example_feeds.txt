@@ -1,0 +1,9 @@
+https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000108
+https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000116
+https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000110
+https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664
+https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910
+https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000739
+https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10001147
+https://feeds.a.dj.com/rss/RSSLifestyle.xml
+https://feeds.a.dj.com/rss/RSSOpinion.xml
