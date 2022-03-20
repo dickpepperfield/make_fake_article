@@ -72,8 +72,8 @@ def createGPT2Text():
     random_title = random.choice(list(open('tmp/feeds')))
 
     # GPT2 Stuff
-    tokenizer = GPT2Tokenizer.from_pretrained("gpt2-large")
-    GPT2 = TFGPT2LMHeadModel.from_pretrained("gpt2-large", pad_token_id=tokenizer.eos_token_id)
+    tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
+    GPT2 = TFGPT2LMHeadModel.from_pretrained("gpt2", pad_token_id=tokenizer.eos_token_id)
     # Input is random title from above, generate text using tensorflow
     input_sequence = random_title
     input_ids = tokenizer.encode(input_sequence, return_tensors='tf')
@@ -100,10 +100,10 @@ def constructAndSendEmail(userArguments,loadFeedTitles,createGPT2Text):
     message["To"] = EMAIL_RECEIVER
 
     # Create the plain-text version of the message
-    text = (createGPT2Text + f"""
-            [tags Daily, News, Fake, {userArguments.category}] [category {userArguments.category}]
-            ALL INFORMATION IN THIS POST IS COMPLETELY FAKE AND GENERATED ON THE FLY \ 
-            [url href="about-us"]READ MORE HERE[/url]
+    text = ( f"""⚠ ALL TEXT IN THIS POST IS COMPLETELY FAKE AND AI GENERATED ⚠\n\n<a href="about-us">Read more about how it's done here.</a>\n\n""" +
+            createGPT2Text + f"""\n\n
+            [tags post, Daily, News, Fake, {userArguments.category}] [category {userArguments.category}]
+            ⚠ ALL TEXT IN THIS POST IS COMPLETELY FAKE AND AI GENERATED ⚠\n\n<a href="about-us">Read more about how it's done here.</a>\n\n
             """)
 
     # Get the image and create it
