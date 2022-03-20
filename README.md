@@ -4,13 +4,11 @@ Make a fake article adn post it to a wordpress site
 
 # Prerequisites
 
-Python 3.8+
-python-venv
-Wordpress
-jetpack post by email: https://jetpack.com/support/post-by-email/
-SMTP Server
-
-
+- Python 3.8+
+- python-venv
+- Wordpress
+- Jetpack post by email: https://jetpack.com/support/post-by-email/
+- An SMTP Server
 
 # Installation
 
