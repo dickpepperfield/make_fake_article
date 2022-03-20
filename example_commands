@@ -1,0 +1,14 @@
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml --category Economy
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml --category Design
+python make_fake_article.py --feed https://www.zdnet.com/news/rss.xml --category Technology
+python make_fake_article.py --feed https://www.zdnet.com/news/rss.xml --category Technology
+python make_fake_article.py --feed https://www.zdnet.com/news/rss.xml --category Technology
+python make_fake_article.py --feed https://www.zdnet.com/news/rss.xml --category Technology
+python make_fake_article.py --feed https://www.zdnet.com/news/rss.xml --category Technology
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Science.xml --category Science
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Health.xml --category Health
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Business.xml --category Business
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml --category Sports
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml --category Travel
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml --category Movies
+python make_fake_article.py --feed https://rss.nytimes.com/services/xml/rss/nyt/Television.xml --category Television
