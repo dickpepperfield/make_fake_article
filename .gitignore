@@ -134,3 +134,6 @@ include/
 bin/
 pyvenv.cfg
 man/
+Include/
+Lib/
+Scripts/
