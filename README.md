@@ -10,6 +10,8 @@ Wordpress
 jetpack post by email: https://jetpack.com/support/post-by-email/
 SMTP Server
 
+
+
 # Installation
 
 Clone the repo
@@ -54,6 +56,19 @@ python make_fake_article.py --feed https://www.zdnet.com/au/rss.xml --category T
 Example feeds have been provided in `example_feeds.txt`
 
 First run through may take a while as it downloads the GPT2 dataset.
+
+# Windows and GPU notes
+
+Follow this setup guide
+https://www.tensorflow.org/install/gpu
+
+CUDNN Library must be accessible and loaded 
+```batch
+SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\bin;%PATH%
+SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\extras\CUPTI\lib64;%PATH%
+SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.0\include;%PATH%
+SET PATH=C:\Program Files\NVIDIA\CUDNN\v8.3\bin;%PATH%
+```
 
 # TODOs
 
