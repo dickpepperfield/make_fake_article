@@ -1,6 +1,6 @@
 # make_fake_article
 
-Make a fake article adn post it to a wordpress site
+Make a fake article and post it to a wordpress site
 
 # Prerequisites
 
