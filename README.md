@@ -11,7 +11,7 @@ Make a fake article and post it to a wordpress site
 - An SMTP Server
 
 # Installation
-
+### For Linux
 Clone the repo
 
 ```bash
@@ -19,28 +19,50 @@ git clone https://github.com/dickpepperfield/make_fake_article
 ```
 
 Create the virtual environment
-
 ```bash
 python3 -m venv make_fake_article
 ```
 
 Enter the virtual environment and install requisite packages
-
 ```bash
 cd make_fake_article
-source bin/activate
+source bin/activate 
 pip install -r requirements.txt
 ```
 
 Correct .env file with required values
-
 ```bash
 cp env.example .env
 vim .env
 ```
 
-# Usage
+------
 
+### For Windows
+Clone the repo
+```batch
+git clone https://github.com/dickpepperfield/make_fake_article
+```
+
+Create the virtual environment
+```batch
+python -m venv make_fake_article
+```
+
+Enter the virtual environment and install requisite packages
+```batch
+cd make_fake_article
+Scripts\activate 
+pip install -r requirements.txt
+```
+
+Correct .env file with required values
+```batch
+copy env.example .env /a
+notepad .env 
+```
+
+# Usage
 Simple commmand usage
 
 ```bash
