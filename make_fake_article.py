@@ -22,6 +22,7 @@ load_dotenv()
 
 # Vars found in .env
 RSS_FEED = os.getenv('RSS_FEED')
+PEXELS_API_KEY = os.getenv('PEXELS_API_KEY')
 UNSPLASH_API_KEY = os.getenv('UNSPLASH_API_KEY')
 EMAIL_SMTP_SERVER = os.getenv('EMAIL_SMTP_SERVER')
 EMAIL_SMTP_PORT = os.getenv('EMAIL_SMTP_PORT')
@@ -30,6 +31,7 @@ EMAIL_RECEIVER = os.getenv('EMAIL_RECEIVER')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 GPT_SEED = random.randint(0,100)
 GPT_MAX_LEN = random.randint(700,900)
+
 
 # For development, use a smaller number here so it runs faster
 # GPT_MAX_LEN = 50
@@ -55,14 +57,14 @@ def getImage(get_args):
     http.mount("https://", adapter)
     http.mount("http://", adapter)
 
-    # Connect to API
-    pu = pyunsplash.PyUnsplash(api_key=UNSPLASH_API_KEY)
-    # Query API for single image
-    photos = pu.photos(type_='random', count=1, featured=True, orientation='squarish', query=get_args.category)
-    [photo] = photos.entries  
-    # Save response to disk
-    response = http.get(photo.link_download, allow_redirects=True, timeout=10)
-    open('tmp/unsplash_temp.png', 'wb').write(response.content)
+    # Connect PEXELS API
+    api = API(PEXELS_API_KEY)
+    api.search(get_args.category, page=random.randint(0,20), results_per_page=1)
+    photos = api.get_entries()
+    # Grab landscape image
+    for photo in photos:
+        response = http.get(photo.landscape, allow_redirects=True, timeout=10)
+        open('tmp/temp_img.png', 'wb').write(response.content)
 
 def loadTitle(get_args):
     feed = feedparser.parse(get_args.feed)
@@ -111,7 +113,7 @@ def constructAndSendEmail(get_args,loadTitle,createGPT2Text):
             """)
 
     # Get the image and create it
-    fp = open('tmp/unsplash_temp.png', 'rb')
+    fp = open('tmp/temp_img.png', 'rb')
     msgImage = MIMEImage(fp.read())
     fp.close()
     msgImage.add_header('Content-ID', '<image1>')
