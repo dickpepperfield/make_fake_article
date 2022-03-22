@@ -129,7 +129,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-tmp/unsplash_temp.png
+tmp/temp_img.*
 tmp/feeds
 include/
 bin/
