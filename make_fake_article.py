@@ -9,12 +9,13 @@ import feedparser
 import tensorflow as tf
 import xml.etree.ElementTree as ET
 from dotenv import load_dotenv
-from dataclasses import dataclass
 from transformers import TFGPT2LMHeadModel, GPT2Tokenizer
-from random_word import RandomWords
+from pexels_api import API
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 # Load environment vars
 load_dotenv()
@@ -43,13 +44,24 @@ def get_args(argv=None):
 
 # Function to grab an image from Unsplash.com, using the --category userarg as a search term
 def getImage(get_args):
+    # Setup requests.get resiliancy
+    retry_strategy = Retry(
+        total=3,
+        status_forcelist=[429, 500, 502, 503, 504],
+        method_whitelist=["HEAD", "GET", "OPTIONS"]
+    )
+    adapter = HTTPAdapter(max_retries=retry_strategy)
+    http = requests.Session()
+    http.mount("https://", adapter)
+    http.mount("http://", adapter)
+
     # Connect to API
     pu = pyunsplash.PyUnsplash(api_key=UNSPLASH_API_KEY)
     # Query API for single image
-    photos = pu.photos(type_='random', count=1, featured=True, query=get_args.category)
+    photos = pu.photos(type_='random', count=1, featured=True, orientation='squarish', query=get_args.category)
     [photo] = photos.entries  
     # Save response to disk
-    response = requests.get(photo.link_download, allow_redirects=True)
+    response = http.get(photo.link_download, allow_redirects=True, timeout=10)
     open('tmp/unsplash_temp.png', 'wb').write(response.content)
 
 def loadTitle(get_args):
