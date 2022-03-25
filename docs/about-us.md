@@ -1,5 +1,3 @@
-# About us
-
 [source](https://github.com/dickpepperfield/make_fake_article/blob/main/docs/about-us.md)
 
 ## Big Disclaimer
