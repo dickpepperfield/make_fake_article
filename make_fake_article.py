@@ -1,3 +1,11 @@
+#
+# make_fake_article.py
+#
+# Copyright dickpepperfield
+# GPL-3.0 License 
+#
+# v1.0.19
+# 
 import os
 import random
 import smtplib
