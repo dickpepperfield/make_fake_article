@@ -139,3 +139,4 @@ Include/
 Lib/
 Scripts/
 test.py
+cron_make_fake_article.sh
