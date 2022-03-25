@@ -4,7 +4,6 @@ import smtplib
 import ssl
 import requests
 import argparse
-import pyunsplash
 import feedparser
 import tensorflow as tf
 import xml.etree.ElementTree as ET
@@ -23,7 +22,6 @@ load_dotenv()
 # Vars found in .env
 RSS_FEED = os.getenv('RSS_FEED')
 PEXELS_API_KEY = os.getenv('PEXELS_API_KEY')
-UNSPLASH_API_KEY = os.getenv('UNSPLASH_API_KEY')
 EMAIL_SMTP_SERVER = os.getenv('EMAIL_SMTP_SERVER')
 EMAIL_SMTP_PORT = os.getenv('EMAIL_SMTP_PORT')
 EMAIL_SENDER = os.getenv('EMAIL_SENDER')
@@ -50,7 +48,7 @@ def getImage(get_args):
     retry_strategy = Retry(
         total=3,
         status_forcelist=[429, 500, 502, 503, 504],
-        method_whitelist=["HEAD", "GET", "OPTIONS"]
+        allowed_methods=["HEAD", "GET", "OPTIONS"]
     )
     adapter = HTTPAdapter(max_retries=retry_strategy)
     http = requests.Session()
@@ -77,7 +75,7 @@ def loadTitle(get_args):
 
 # Function to create the text, input text that the article is built from is provided from 
 # random_title, out of the tmp/feeds list
-def createGPT2Text(get_args,loadTitle):
+def createGPT2Text(loadTitle):
     # GPT2 Stuff
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
     GPT2 = TFGPT2LMHeadModel.from_pretrained("gpt2", pad_token_id=tokenizer.eos_token_id)
@@ -128,11 +126,12 @@ def constructAndSendEmail(get_args,loadTitle,createGPT2Text):
 
     # Create secure connection with server and send email
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT, context=context) as server:
-        server.login(EMAIL_SENDER, EMAIL_PASSWORD)
-        server.sendmail(
-            EMAIL_SENDER, EMAIL_RECEIVER, message.as_string()
-        )
+    with smtplib.SMTP(EMAIL_SMTP_SERVER, EMAIL_SMTP_PORT) as server:
+            server.starttls(context=context)
+            server.login(EMAIL_SENDER, EMAIL_PASSWORD)
+            server.sendmail(
+                EMAIL_SENDER, EMAIL_RECEIVER, message.as_string()
+            )
 
 # Main function
 def main():
@@ -140,7 +139,7 @@ def main():
     getImage(userargs)
 
     title = loadTitle(userargs)
-    content = createGPT2Text(userargs, title)
+    content = createGPT2Text(title)
 
     constructAndSendEmail(userargs, title, content)
 
