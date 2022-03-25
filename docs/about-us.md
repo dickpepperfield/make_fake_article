@@ -21,8 +21,7 @@ A learning experience, touching a few bits of tech I haven't really dealt with.
 
 ## How it works
 
-1. Firstly, the application grabs an RSS feed, and collates the titles, then randomly selects one.
-
+#### Firstly, the application grabs an RSS feed, and collates the titles, then randomly selects one.
 ```python
 def loadTitle(get_args):
     feed = feedparser.parse(get_args.feed)
@@ -34,8 +33,7 @@ def loadTitle(get_args):
     return Title
 ```
 
-2. Then it hits the Pexels API and selects a result from an image query, using the default category flag, or a provided one.
-
+#### Then it hits the Pexels API and selects a result from an image query, using the default category flag, or a provided one.
 ```python
 def getImage(get_args):
     # Setup requests.get resiliancy
@@ -59,8 +57,7 @@ def getImage(get_args):
         open('tmp/temp_img.png', 'wb').write(response.content)
 ```
 
-3. Then we move onto text generation
-
+#### Then we move onto text generation
 ```python
 def createGPT2Text(loadTitle):
     # GPT2 Stuff
@@ -84,8 +81,7 @@ def createGPT2Text(loadTitle):
 
 Taking a title from the list of titles grabbed earlier, is the basis or start of the text generation. Ensures its mostly different every time it's ran.
 
-4. Finally, we construct the email, this section does a few things, gets all the different elements of the email sorted, and ready to attach, and then actually sends it all using the smtplib Python library
-
+#### Finally, we construct the email, this section does a few things, gets all the different elements of the email sorted, and ready to attach, and then actually sends it all using the smtplib Python library
 ```python
 # Function to construct the email, attach the article and image, and then send it to
 # post to email. Has a few hard coded shortcodes that could be ripped out for userargs
