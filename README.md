@@ -95,3 +95,12 @@ SET PATH=C:\Program Files\NVIDIA\CUDNN\v8.3\bin;%PATH%
 - Split the single file into a proper python application, with module functions.
 - add more categories, and rss feeds
 - GPU processing
+
+# ENV information for CUDA procesing
+
+```powershell
+SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\bin;%PATH%
+SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\extras\CUPTI\lib64;%PATH%
+SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\include;%PATH%
+SET PATH=C:\Program Files\NVIDIA\CUDNN\v8.3\bin;%PATH%
+```
