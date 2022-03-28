@@ -16,17 +16,17 @@ Make a fake article and post it to a wordpress site
 Clone the repo
 
 ```bash
-git clone https://github.com/dickpepperfield/make_fake_article
+git clone https://github.com/realfakenews-space/realfakenews.space
 ```
 
 Create the virtual environment
 ```bash
-python3 -m venv make_fake_article
+python3 -m venv realfakenews.space
 ```
 
 Enter the virtual environment and install requisite packages
 ```bash
-cd make_fake_article
+cd realfakenews.space
 source bin/activate 
 pip install -r requirements.txt
 ```
@@ -42,17 +42,17 @@ vim .env
 ### For Windows
 Clone the repo
 ```batch
-git clone https://github.com/dickpepperfield/make_fake_article
+git clone https://github.com/realfakenews-space/realfakenews.space
 ```
 
 Create the virtual environment
 ```batch
-python -m venv make_fake_article
+python -m venv realfakenews.space
 ```
 
 Enter the virtual environment and install requisite packages
 ```batch
-cd make_fake_article
+cd realfakenews.space
 Scripts\activate 
 pip install -r requirements.txt
 ```
@@ -96,12 +96,3 @@ SET PATH=C:\Program Files\NVIDIA\CUDNN\v8.3\bin;%PATH%
 - Split the single file into a proper python application, with module functions.
 - add more categories, and rss feeds
 - GPU processing
-
-# ENV information for CUDA procesing
-
-```powershell
-SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\bin;%PATH%
-SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\extras\CUPTI\lib64;%PATH%
-SET PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6\include;%PATH%
-SET PATH=C:\Program Files\NVIDIA\CUDNN\v8.3\bin;%PATH%
-```
