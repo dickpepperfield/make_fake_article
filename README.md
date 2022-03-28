@@ -1,4 +1,5 @@
-# make_fake_article
+# realfakenews.space
+# AI Generated news, posted 4 times a day.
 
 Make a fake article and post it to a wordpress site
 
