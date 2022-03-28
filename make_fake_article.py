@@ -115,7 +115,7 @@ def constructAndSendEmail(get_args,loadTitle,createGPT2Text):
     # Create the plain-text version of the message
     text = (createGPT2Text + f"""\n\n
             [tags post, Daily, News, Fake, {get_args.category}] [category {get_args.category}]
-            ⚠ ALL TEXT IN THIS POST IS COMPLETELY FAKE AND AI GENERATED ⚠\n\n<a href="about-us">Read more about how it's done here.</a>\n\n
+            ⚠ ALL TEXT IN THIS POST IS COMPLETELY FAKE AND AI GENERATED ⚠<br><a href="/about">Read more about how it's done here.</a><br><br>
             """)
 
     # Get the image and create it
