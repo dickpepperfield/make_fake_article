@@ -1,7 +1,9 @@
 # realfakenews.space
 # AI Generated news, posted 4 times a day.
 
-Make a fake article and post it to a wordpress site
+Make a fake article and post it to a wordpress site, this is the python application the creates the content on the website https://realfakenews.space
+
+Some website files live within docs
 
 # Prerequisites
 
